@@ -1,0 +1,13 @@
+package com.dm.dmservicesandbox;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DmServiceSandboxApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DmServiceSandboxApplication.class, args);
+	}
+
+}
