@@ -1,0 +1,63 @@
+<mxfile host="app.diagrams.net" modified="2023-07-17T02:29:24.181Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.79" etag="eURsT8k7DQJ_piNxP2xE" version="21.6.2" type="device">
+  <diagram name="Page-1" id="q336N8Dqi9GqQU6O98Fu">
+    <mxGraphModel dx="1040" dy="577" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-2" target="5Pt4SZ1DqxVITmPgcuHA-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-2" value="Web UI" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0000FF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="320" y="20" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-3" target="5Pt4SZ1DqxVITmPgcuHA-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-3" target="5Pt4SZ1DqxVITmPgcuHA-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.008;entryY=0.604;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-3" target="5Pt4SZ1DqxVITmPgcuHA-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-3" value="UI Backend Service&lt;br&gt;(Spring Boot Rest API)" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;" vertex="1" parent="1">
+          <mxGeometry x="320" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-5" value="MySql DB" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="350" y="310" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-7" target="5Pt4SZ1DqxVITmPgcuHA-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-7" value="Entitlement and Authorization Services" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;" vertex="1" parent="1">
+          <mxGeometry x="680" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-9" target="5Pt4SZ1DqxVITmPgcuHA-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-9" value="Feed &amp;amp; Recommendations Server" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;" vertex="1" parent="1">
+          <mxGeometry x="680" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5Pt4SZ1DqxVITmPgcuHA-15" target="5Pt4SZ1DqxVITmPgcuHA-5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="610" y="350" />
+              <mxPoint x="610" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-15" value="Standalone Analytical Services" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="680" y="300" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-19" value="UI Backend Service&lt;br&gt;(Spring Boot Rest API)" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="320" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-20" value="Entitlement and Authorization Services" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="680" y="100" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5Pt4SZ1DqxVITmPgcuHA-21" value="Feed &amp;amp; Recommendations Server" style="whiteSpace=wrap;html=1;rounded=0;fillColor=#0000FF;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="680" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
