@@ -1,14 +1,13 @@
 package com.dm.dmservicesandbox;
 
-import com.dm.dmservicesandbox.service.UserAuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dm.dmservicesandbox.service.UserAuthenticationServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/user/")
 public class UserRequestController {
 
-    public UserAuthenticationService userAuthenticationService;
+    public UserAuthenticationServiceImpl userAuthenticationService;
 
     @GetMapping("getUserInfo")
     public String getUserInfo(@RequestParam(value = "userName") String userName) {
