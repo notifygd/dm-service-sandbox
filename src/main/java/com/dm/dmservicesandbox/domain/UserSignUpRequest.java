@@ -23,7 +23,7 @@ public class UserSignUpRequest {
     @NotEmpty
     private String email;
 
-    @Size(min = 6, message = "{Size.userDto.password}")
+    @Size(min = 6, message = "Min Length is 6")
     private String password;
 
     @NotEmpty
