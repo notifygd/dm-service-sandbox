@@ -2,8 +2,12 @@ package com.dm.dmservicesandbox;
 
 import com.dm.dmservicesandbox.domain.User;
 import com.dm.dmservicesandbox.domain.UserLocation;
-import com.dm.dmservicesandbox.service.UserAuthenticationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dm.dmservicesandbox.service.UserAuthenticationServiceImpl;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 @RestController
