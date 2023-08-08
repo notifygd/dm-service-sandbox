@@ -15,6 +15,12 @@ https://www.figma.com/file/3ovhj2RQ5dQEP9ZlSM9F0T/Morgan-Stanley?type=design&nod
 ### More about digital moment
 https://digitalmoment.org/
 
+### Codebase fetch and merge guideline
+1) Please fork the repo from the dm-core-services to your fork repository
+2) Sync you local forked repo onto your machine or codespace as applicable
+3) Once you make changes on your end, raise a pull request to the source repository and merge post approvals
+
+
 ### Launching the code locally
 1) Click on build.gradle to run and load all dependencies
 2) Ensure JDK 17 is installed and added in your Intellij
