@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserSignUpRequest {
 
-    private Long userID;
+    private Long userDBIdentifier;
 
     private String userId;
 

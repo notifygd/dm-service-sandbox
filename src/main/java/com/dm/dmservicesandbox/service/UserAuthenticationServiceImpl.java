@@ -36,8 +36,8 @@ public class UserAuthenticationServiceImpl implements  UserAuthenticationService
     @Override
     @Transactional(value = "transactionManager")
     public UserLogin registerNewUser(UserSignUpRequest signUpRequest) throws UserAuthenticationException {
-        if (signUpRequest.getUserID() != null && userRepository.existsById(signUpRequest.getUserID())) {
-            throw new UserAuthenticationException("User with User id " + signUpRequest.getUserID() + " already exist");
+        if (signUpRequest.getUserDBIdentifier() != null && userRepository.existsById(signUpRequest.getUserDBIdentifier())) {
+            throw new UserAuthenticationException("User with User id " + signUpRequest.getUserDBIdentifier() + " already exist");
         } else if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new UserAuthenticationException("User with email id " + signUpRequest.getEmail() + " already exist");
         }
