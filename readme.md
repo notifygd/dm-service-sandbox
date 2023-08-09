@@ -28,3 +28,10 @@ b. File -> Settings
 5) The services will be hosted on http://localhost:8080/
 sample url:
    http://localhost:8080/v1/user/ping
+
+### Swagger url
+Once you launch the application locally, swagger url can be accessed at:
+http://localhost:8080/swagger-ui/index.html#/
+
+#### API Docs link:
+http://localhost:8080/api-docs
