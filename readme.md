@@ -20,7 +20,6 @@ https://digitalmoment.org/
 2) Sync you local forked repo onto your machine or codespace as applicable
 3) Once you make changes on your end, raise a pull request to the source repository and merge post approvals
 
-
 ### Launching the code locally
 1) Click on build.gradle to run and load all dependencies
 2) Ensure JDK 17 is installed and added in your Intellij
@@ -34,3 +33,10 @@ b. File -> Settings
 5) The services will be hosted on http://localhost:8080/
 sample url:
    http://localhost:8080/v1/user/ping
+
+### Swagger url
+Once you launch the application locally, swagger url can be accessed at:
+http://localhost:8080/swagger-ui/index.html#/
+
+#### API Docs link:
+http://localhost:8080/api-docs
