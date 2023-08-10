@@ -1,12 +1,17 @@
 package com.dm.dmservicesandbox.domain;
 
 import com.dm.dmservicesandbox.validation.PasswordMatches;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-
+@Getter
+@Setter
+@ToString(callSuper=true, includeFieldNames=true)
 @PasswordMatches
 public class UserSignUpRequest {
 
@@ -32,45 +37,6 @@ public class UserSignUpRequest {
     }
 
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
-    }
 
     public static Builder getBuilder() {
         return new Builder();

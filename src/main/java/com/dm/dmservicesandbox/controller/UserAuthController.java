@@ -23,7 +23,7 @@ public class UserAuthController {
     @Autowired
     UserAuthenticationService userAuthenticationService;
 
-    @PostMapping("/signup")
+    @PostMapping("/registerUser")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserSignUpRequest userSignUpRequest) {
         try {
             userAuthenticationService.registerNewUser(userSignUpRequest);

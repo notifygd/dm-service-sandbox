@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(callSuper=true, includeFieldNames=true)
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
     public static final String USER = "USER";
@@ -60,10 +62,5 @@ public class Role implements Serializable {
         return true;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Role [name=").append(name).append("]").append("[id=").append(roleId).append("]");
-        return builder.toString();
-    }
+
 }
