@@ -1,14 +1,21 @@
 package com.dm.dmservicesandbox.service;
 
+
+
+import com.dm.dmservicesandbox.domain.UserLogin;
+import com.dm.dmservicesandbox.domain.UserSignUpRequest;
 import com.dm.dmservicesandbox.service.exception.UserAuthenticationException;
-import org.springframework.stereotype.Service;
 
-@Service
-public class UserAuthenticationService {
 
-    public boolean authenticateUser(String userName) throws UserAuthenticationException {
-        //TODO Logic for authentication
-        return true;
-    }
+import java.util.Optional;
+
+public interface UserAuthenticationService {
+    public UserLogin registerNewUser(UserSignUpRequest signUpRequest) throws UserAuthenticationException;
+
+    UserLogin findUserByEmail(String email);
+
+    Optional<UserLogin> findUserById(Long id);
 
 }
+
+
