@@ -14,3 +14,29 @@ https://www.figma.com/file/3ovhj2RQ5dQEP9ZlSM9F0T/Morgan-Stanley?type=design&nod
 
 ### More about digital moment
 https://digitalmoment.org/
+
+### Codebase fetch and merge guideline
+1) Please fork the repo from the dm-core-services to your fork repository
+2) Sync you local forked repo onto your machine or codespace as applicable
+3) Once you make changes on your end, raise a pull request to the source repository and merge post approvals
+
+### Launching the code locally
+1) Click on build.gradle to run and load all dependencies
+2) Ensure JDK 17 is installed and added in your Intellij
+a. File-> Project Structure -> Project
+Add SDK JDK 17
+![img.png](projectSettings1.png)
+b. File -> Settings
+![img.png](projectSettings2.png)
+3) Build the project
+4) Once the project compiles - click on class DmServiceSandboxApplication to launch as Spring boot application
+5) The services will be hosted on http://localhost:8080/
+sample url:
+   http://localhost:8080/v1/user/ping
+
+### Swagger url
+Once you launch the application locally, swagger url can be accessed at:
+http://localhost:8080/swagger-ui/index.html#/
+
+#### API Docs link:
+http://localhost:8080/api-docs
