@@ -5,13 +5,13 @@ import com.dm.dmservicesandbox.domain.ServiceReponse;
 import com.dm.dmservicesandbox.domain.UserSignUpRequest;
 import com.dm.dmservicesandbox.service.UserAuthenticationService;
 import com.dm.dmservicesandbox.service.exception.UserAuthenticationException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @Slf4j
 @RestController
