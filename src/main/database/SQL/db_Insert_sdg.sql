@@ -88,4 +88,4 @@ INSERT INTO `sdg`
 VALUES
 (17, 'Partnerships for the Goals');
 
--- SELECT * from `sdg`;
+-- select sys_id, created_on, updated_on, sdg_number, tag_text from sdg;
