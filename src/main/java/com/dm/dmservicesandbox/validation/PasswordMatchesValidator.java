@@ -2,9 +2,9 @@ package com.dm.dmservicesandbox.validation;
 
 
 import com.dm.dmservicesandbox.domain.UserSignUpRequest;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, UserSignUpRequest> {
 
