@@ -1,19 +1,21 @@
 -- choice_list ---
-DELETE from `dm_changemaker_sb`.`choice_list`;
+USE `digital7_digital_momentum` ;
 
-INSERT INTO `dm_changemaker_sb`.`choice_list`
+DELETE from `choice_list`;
+
+INSERT INTO `choice_list`
 (`table_name`,`col_name`,`choice_value`,`choice_label`)
 VALUES
 ('user','user_role','moderator','Moderator');
 
-INSERT INTO `dm_changemaker_sb`.`choice_list`
+INSERT INTO `choice_list`
 (`table_name`,`col_name`,`choice_value`,`choice_label`)
 VALUES
 ('user','user_role','admin','Admin');
 
-INSERT INTO `dm_changemaker_sb`.`choice_list`
+INSERT INTO `choice_list`
 (`table_name`,`col_name`,`choice_value`,`choice_label`)
 VALUES
 ('user','user_role','user','Registered User');
 
--- SELECT * from `dm_changemaker_sb`.`choice_list`;
+-- SELECT * from `choice_list`;
