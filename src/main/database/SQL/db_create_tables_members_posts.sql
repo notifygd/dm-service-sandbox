@@ -6,12 +6,14 @@ CREATE TABLE Members (
     membership_date DATE,
     country VARCHAR(255),
     city VARCHAR(255),
-    language VARCHAR(2)
+    member_post_cnt INT,
+    member_upvotes INT,
+    member_share_cnt INT
 );
 
-CREATE TABLE Posts (
-    post_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    member_id BIGINT,
+CREATE TABLE posts (
+    post_id VARCHAR(255) PRIMARY KEY,
+    member_id VARCHAR(255),
     topic VARCHAR(255),
     title VARCHAR(255),
     description TEXT,
@@ -19,30 +21,31 @@ CREATE TABLE Posts (
     challenges TEXT,
     solutions TEXT,
     sentiment INT,
-    emotion VARCHAR(50),
+    emotion VARCHAR(255),
     related_posts TEXT,
-    user_tags TEXT,
+    user_tags_for_post TEXT,
     SDG_tags_for_post TEXT,
-    member_post_cnt INTEGER,
-    member_upvotes INTEGER,
-    member_share_cnt INTEGER,
-    content_upvote_cnt INTEGER,
-    content_share_cnt INTEGER,
-    FOREIGN KEY (member_id) REFERENCES Members(member_id)
+    post_upvote_cnt INT,
+    post_share_cnt INT,
+    language VARCHAR(10),
+    creation_timestamp DATETIME,
+    update_timestamp DATETIME,
+    FOREIGN KEY (member_id) REFERENCES members(member_id)
 );
 
 
+
 LOAD DATA INFILE 'members.csv'
-INTO TABLE Members
+INTO TABLE members
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(first_name, last_name, dob, membership_date, country, city, language);
+(member_id, first_name, last_name, dob, membership_date, country, city);
 
 
 LOAD DATA INFILE 'posts.csv'
-INTO TABLE Posts
+INTO TABLE posts
 FIELDS TERMINATED BY ',' ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 ROWS
-(member_id, topic, title, description, source_contrib_factors, challenges, solutions, sentiment, emotion, related_posts, user_tags, SDG_tags_for_post, member_post_cnt, member_upvotes, member_share_cnt, content_upvote_cnt, content_share_cnt);
+(post_id, member_id, topic, title, description, source_contrib_factors, challenges, solutions, sentiment, emotion, related_posts, user_tags_for_post, SDG_tags_for_post, post_upvote_cnt, post_share_cnt, language, creation_timestamp, update_timestamp);
