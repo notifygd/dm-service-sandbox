@@ -1,7 +1,9 @@
 package com.dm.dmservicesandbox.service;
 
+import com.dm.dmservicesandbox.dbhome.LocationRepository;
 import com.dm.dmservicesandbox.dbhome.RoleRepository;
 import com.dm.dmservicesandbox.domain.Role;
+import com.dm.dmservicesandbox.domain.UserLocation;
 import com.dm.dmservicesandbox.domain.UserLogin;
 import com.dm.dmservicesandbox.domain.UserSignUpRequest;
 import com.dm.dmservicesandbox.service.exception.UserAuthenticationException;
@@ -28,6 +30,9 @@ public class UserAuthenticationServiceImpl implements  UserAuthenticationService
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
     public boolean authenticateUser(String userName) throws UserAuthenticationException {
         //TODO Logic for authentication
         return true;
@@ -39,10 +44,16 @@ public class UserAuthenticationServiceImpl implements  UserAuthenticationService
       if (userRepository.existsByEmail(signUpRequest.getEmail())) {
             throw new UserAuthenticationException("User with email id " + signUpRequest.getEmail() + " already exist");
         }
+
+    UserLocation userLoc = buildUserLocation(signUpRequest);
+        UserLocation userLocationResponse =  locationRepository.save(userLoc);
+        locationRepository.flush();
+
         UserLogin user = buildUser(signUpRequest);
         Date now = Calendar.getInstance().getTime();
         user.setCreatedDate(now);
         user.setModifiedDate(now);
+        user.setUserLocation(userLocationResponse.getLocationId());
         user = userRepository.save(user);
         userRepository.flush();
         return user;
@@ -70,5 +81,13 @@ public class UserAuthenticationServiceImpl implements  UserAuthenticationService
         user.setEnabled(true);
         user.setProviderUserId(userSignUpRequest.getUserId());
         return user;
+    }
+
+    private UserLocation buildUserLocation(final UserSignUpRequest userSignUpRequest) {
+        UserLocation userLocation = new UserLocation();
+        userLocation.setCity(userSignUpRequest.getCity());
+        userLocation.setCountry(userSignUpRequest.getCountry());
+        userLocation.setMapBoxId(userSignUpRequest.getMapBoxId());
+        return userLocation;
     }
 }
