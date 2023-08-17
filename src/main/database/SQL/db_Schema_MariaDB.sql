@@ -48,11 +48,11 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `post_id` BINARY(32) NOT NULL COMMENT 'sys_id of the post that the comment related to',
+  `post_id` VARCHAR(32) NOT NULL COMMENT 'sys_id of the post that the comment related to',
   `post_field` VARCHAR(25) NULL COMMENT 'column name in post table: description, factors, obstacles, solutions\nIndicatse the comment is for which field of the post',
-  `created_by` BINARY(32) NOT NULL COMMENT 'The user who created the comment',
+  `created_by` VARCHAR(32) NOT NULL COMMENT 'The user who created the comment',
   `content` VARCHAR(500) NULL COMMENT 'comment content',
-  `updated_by` BINARY(32) NULL,
+  `updated_by` VARCHAR(32) NULL,
   PRIMARY KEY (`sys_id`))
 ENGINE = InnoDB;
 
@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS `comment_vote` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` BINARY(32) NOT NULL,
-  `comment_id` BINARY(32) NOT NULL COMMENT 'sys_id of the post or comment',
+  `user_id` VARCHAR(32) NOT NULL,
+  `comment_id` VARCHAR(32) NOT NULL COMMENT 'sys_id of the post or comment',
   PRIMARY KEY (`sys_id`))  
 ENGINE = InnoDB;
 
@@ -112,18 +112,54 @@ CREATE TABLE IF NOT EXISTS `post` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author_id` BINARY(32) NOT NULL,
+  `author_id` VARCHAR(32) NOT NULL,
   `status` VARCHAR(45) NULL DEFAULT 'draft' COMMENT 'status of the post:\nENUM(\'draft\', \'published\', \'inactive\', \'reported\')',
+  `topic` VARCHAR(255) NOT NULL,
   `title` VARCHAR(255) NOT NULL,
-  `location_id` BINARY(32) NULL,
-  `description` VARCHAR(4000) NOT NULL,
-  `factors` VARCHAR(2000) NULL,
-  `obstacles` VARCHAR(2000) NULL,
-  `solutions` VARCHAR(1000) NULL,
-  `viewed_count` INT NULL DEFAULT 0,
-  `updated_count` INT NULL DEFAULT 0 COMMENT 'Can be calculated automatically by a trigger.',
+  `location_id` VARCHAR(32) NULL,
+  `description` TEXT NOT NULL,
+  `factors` TEXT NULL,
+  `challenges` TEXT NULL,
+  `solutions` TEXT NULL,
+	sentiment INT,
+	emotion VARCHAR(50),
+	related_posts TEXT,
+	user_tags TEXT,
+	sdg_tags TEXT,
+	member_post_cnt INTEGER,
+	member_upvotes INTEGER,
+	member_share_cnt INTEGER,
+	content_upvote_cnt INTEGER,
+	content_share_cnt INTEGER,
+	`language` VARCHAR(2),    
   PRIMARY KEY (`sys_id`))
 ENGINE = InnoDB;
+
+-- CREATE TABLE IF NOT EXISTS `post` (
+--   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+--   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--   `author_id` VARCHAR(32) NOT NULL,
+--   `status` VARCHAR(45) NULL DEFAULT 'draft' COMMENT 'status of the post:\nENUM(\'draft\', \'published\', \'inactive\', \'reported\')',
+--   `topic` VARCHAR(255) NOT NULL,
+--   `title` VARCHAR(255) NOT NULL,
+--   `location_id` VARCHAR(32) NULL,
+--   `description` VARCHAR(4000) NOT NULL,
+--   `factors` VARCHAR(2000) NULL,
+--   `challenges` VARCHAR(2000) NULL,
+--   `solutions` VARCHAR(1000) NULL,
+-- 	sentiment INT,
+-- 	emotion VARCHAR(50),
+-- 	related_posts TEXT,
+-- 	user_tags TEXT,
+-- 	SDG_tags_for_post TEXT,
+-- 	member_post_cnt INTEGER,
+-- 	member_upvotes INTEGER,
+-- 	member_share_cnt INTEGER,
+-- 	content_upvote_cnt INTEGER,
+-- 	content_share_cnt INTEGER,
+--   PRIMARY KEY (`sys_id`))
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -135,8 +171,8 @@ CREATE TABLE IF NOT EXISTS `post_tag` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `post_id` BINARY(32) NOT NULL,
-  `tag_id` BINARY(32) NOT NULL,
+  `post_id` VARCHAR(32) NOT NULL,
+  `tag_id` VARCHAR(32) NOT NULL,
   `tag_type` VARCHAR(45) NULL COMMENT 'ENUM(\'sdg\', \'tag\'):\nIndicates this is a releationship between post and tag or post and sdg.')
 ENGINE = InnoDB;
 
@@ -150,8 +186,8 @@ CREATE TABLE IF NOT EXISTS `post_vote` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` BINARY(32) NOT NULL,
-  `post_id` BINARY(32) NOT NULL COMMENT 'sys_id of the post',
+  `user_id` VARCHAR(32) NOT NULL,
+  `post_id` VARCHAR(32) NOT NULL COMMENT 'sys_id of the post',
   `post_field` VARCHAR(45) NULL COMMENT 'ENUM(description, solution). Indicates which section of a post to vote.\" description\" respresents a group of  sections -  description, factors, and obstacles.')
 ENGINE = InnoDB;
 
@@ -191,42 +227,62 @@ ENGINE = InnoDB;
 -- Table `user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `user` ;
-
 CREATE TABLE IF NOT EXISTS `user` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `email` VARCHAR(255) NOT NULL,
-  `pwd_hash` VARCHAR(255) NOT NULL COMMENT 'SHA256-based encoding hash',
-  `pwd_salt` VARCHAR(50) NOT NULL COMMENT 'a randonm string used for SHA256-based encoding',
+  `email` VARCHAR(255)  NOT NULL,
+  `pwd_hash` VARCHAR(255) NOT NULL COMMENT 'encoding hash',
+  `pwd_salt` VARCHAR(50)  NOT NULL COMMENT 'a randonm string used for encoding',
   `user_name` VARCHAR(50) NOT NULL COMMENT 'The user handle name.Can be changed by the user.',
   `year_of_birth` YEAR NULL,
   `description` VARCHAR(255) NULL COMMENT 'self-description',
   `profile_image` VARCHAR(255) NULL COMMENT 'image file name',
-  `location_id` BINARY(32) NOT NULL,
+  `location_id` VARCHAR(32) NULL COMMENT '?',
   `user_status` VARCHAR(45) NULL DEFAULT 0 COMMENT 'ENUM(new, verified, suspended, banned, canceled)',
   `user_role` VARCHAR(45) NULL COMMENT 'ENUM(\'registered\', \'moderator\', \'admin\'):\nguest users are not stored in DB.',
   `last_login_time` DATETIME NULL,
   `tmp_token` VARCHAR(16) NULL COMMENT 'Temporary token for email validation',
   `tmp_token_expire_on` DATETIME NULL COMMENT 'Eexpriation time for the temporary token for email validation',
+	country VARCHAR(255),
+	city VARCHAR(255),
   PRIMARY KEY (`sys_id`))
 ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `user` (
+--   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+--   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--   `email` VARCHAR(255) NOT NULL,
+--   `pwd_hash` VARCHAR(255) NOT NULL COMMENT 'SHA256-based encoding hash',
+--   `pwd_salt` VARCHAR(50) NOT NULL COMMENT 'a randonm string used for SHA256-based encoding',
+--   `user_name` VARCHAR(50) NOT NULL COMMENT 'The user handle name.Can be changed by the user.',
+--   `year_of_birth` YEAR NULL,
+--   `description` VARCHAR(255) NULL COMMENT 'self-description',
+--   `profile_image` VARCHAR(255) NULL COMMENT 'image file name',
+--   `location_id` VARCHAR(32) NOT NULL,
+--   `user_status` VARCHAR(45) NULL DEFAULT 0 COMMENT 'ENUM(new, verified, suspended, banned, canceled)',
+--   `user_role` VARCHAR(45) NULL COMMENT 'ENUM(\'registered\', \'moderator\', \'admin\'):\nguest users are not stored in DB.',
+--   `last_login_time` DATETIME NULL,
+--   `tmp_token` VARCHAR(16) NULL COMMENT 'Temporary token for email validation',
+--   `tmp_token_expire_on` DATETIME NULL COMMENT 'Eexpriation time for the temporary token for email validation',
+--   PRIMARY KEY (`sys_id`))
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `user_feed`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user_feed` ;
+-- DROP TABLE IF EXISTS `user_feed` ;
 
-CREATE TABLE IF NOT EXISTS `user_feed` (
-  `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
-  `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` BINARY(32) NOT NULL,
-  `feed_type` VARCHAR(45) NULL COMMENT 'Indicate thie feed is for: following user,  SDG, Tag,or  country',
-  `post_id` BINARY(32) NOT NULL COMMENT 'sys_id of the post',
-  `is_viewed` TINYINT(1) NULL DEFAULT 0 COMMENT 'Indicates if the feed item is viewed or not.')
-ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS `user_feed` (
+--   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+--   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+--   `user_id` VARCHAR(32) NOT NULL,
+--   `feed_type` VARCHAR(45) NULL COMMENT 'Indicate thie feed is for: following user,  SDG, Tag,or  country',
+--   `post_id` VARCHAR(32) NOT NULL COMMENT 'sys_id of the post',
+--   `is_viewed` TINYINT(1) NULL DEFAULT 0 COMMENT 'Indicates if the feed item is viewed or not.')
+-- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -238,9 +294,9 @@ CREATE TABLE IF NOT EXISTS `user_follows` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` BINARY(32) NOT NULL COMMENT 'sys_id of the user who is being followed',
+  `user_id` VARCHAR(32) NOT NULL COMMENT 'sys_id of the user who is being followed',
   `follows_type` VARCHAR(45) NULL COMMENT 'ENUM(\'post\',\'sdg\', \'tag\', \'location\', \'user\')\nIndicates the user is following  a post, a SDG, a tagr a country/location, or a user',
-  `follows_id` BINARY(32) NULL COMMENT 'sys_id of the following item in follows_table.')
+  `follows_id` VARCHAR(32) NULL COMMENT 'sys_id of the following item in follows_table.')
 ENGINE = InnoDB;
 
 
@@ -257,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `user_preference` (
   `notify_tags` TINYINT(1) NULL,
   `notify_countries` TINYINT(1) NULL,
   `notify_people` TINYINT(1) NULL,
-  `user_id` BINARY(32) NOT NULL)
+  `user_id` VARCHAR(32) NOT NULL)
 ENGINE = InnoDB;
 
 
