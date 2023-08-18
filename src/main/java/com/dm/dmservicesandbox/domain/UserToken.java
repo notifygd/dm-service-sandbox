@@ -9,23 +9,18 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "user_token")
 public class UserToken
 {
     @Id
-    @Column(name = "sys_id")
-    private String id;
-
     @Column(name = "email")
     private String email;
 
-    @Column(name = "tmp_token")
+    @Column(name = "token")
     private String token;
 
-    @Column(name = "tmp_token_expire_on")
+    @Column(name = "token_expire_on")
     private String tokenExpireDateStr;
 
-    @Column(name = "user_status")
-    private String status;
 
 }

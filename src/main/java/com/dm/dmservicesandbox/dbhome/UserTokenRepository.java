@@ -16,6 +16,17 @@ public class UserTokenRepository {
     @PersistenceContext
     private EntityManager em;
 
+    public UserToken findUserByEmail(String email) {
+        TypedQuery<UserToken> query = em.createQuery( "SELECT u FROM UserToken u where u.email = :value", UserToken.class);
+        query.setParameter("value", email);
+        List<UserToken> resultList = query.getResultList();
+        if(resultList.size() > 0) {
+            return resultList.get(0);
+        } else {
+            return null;
+        }
+    }
+
     public UserToken findUserByToken(String token) {
         TypedQuery<UserToken> query = em.createQuery( "SELECT u FROM UserToken u where u.token = :value", UserToken.class);
         query.setParameter("value", token);
@@ -29,7 +40,12 @@ public class UserTokenRepository {
 
     @Transactional
     public int saveUserToken(String email, String token, String expireDateStr)  {
-        Query query = em.createQuery("UPDATE UserToken SET token=:token, tokenExpireDateStr=:expire_date, status='verifying' WHERE email=:email");
+        Query query = null;
+        if(findUserByEmail(email) == null) {
+            query = em.createQuery("INSERT INTO UserToken (email, token, tokenExpireDateStr) VALUES (:email, :token, :expire_date)");
+        } else {
+            query = em.createQuery("UPDATE UserToken SET token=:token, tokenExpireDateStr=:expire_date WHERE email=:email");
+        }
         return query.setParameter("token", token)
                                 .setParameter("expire_date", expireDateStr)
                                 .setParameter("email", email)
@@ -37,9 +53,9 @@ public class UserTokenRepository {
     }
 
     @Transactional
-    public int saveUserVerified(String email)  {
-        Query query = em.createQuery("UPDATE UserToken SET token='', tokenExpireDateStr=null, status='verified' WHERE email=:email");
-        return query.setParameter("email", email).executeUpdate();
+    public int saveUserTokenVerified(String token)  {
+        Query query = em.createQuery("UPDATE UserToken SET token='', tokenExpireDateStr=null WHERE token=:token");
+        return query.setParameter("token", token).executeUpdate();
     }
 
 }

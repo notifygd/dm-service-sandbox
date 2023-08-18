@@ -1,13 +1,14 @@
 package com.dm.dmservicesandbox.component;
 
 import com.dm.dmservicesandbox.dbhome.UserTokenRepository;
+import com.dm.dmservicesandbox.domain.APINames;
 import com.dm.dmservicesandbox.domain.EmailData;
 import com.dm.dmservicesandbox.domain.UserToken;
 import com.dm.dmservicesandbox.domain.ServiceReponse;
-import com.dm.dmservicesandbox.domain.APINames;
 
 import jakarta.persistence.EntityManager;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -20,10 +21,9 @@ import java.util.TimeZone;
 
 
 @Component
-public class UserVerificationComponent {
+public class UserInvitationComponent {
     @Autowired
     private EntityManager em;
-
 
     @Autowired
     private UserTokenRepository userTokenRepository;
@@ -35,11 +35,9 @@ public class UserVerificationComponent {
     UserTokenComponent userTokenComponent;
 
 
-
-    public ResponseEntity sendRegisterConfirmation(String email) {
+    public ResponseEntity sendUserInvite(String email) {
         try {
 
-            //calculate verification token and expire date
             //calculate verification token and expire date
             String token = userTokenComponent.generateUserToken();
             Date expireTime = userTokenComponent.calTokenExpiryDate();
@@ -50,22 +48,20 @@ public class UserVerificationComponent {
             //save verification token and expire date to DB
             userTokenRepository.saveUserToken(email, token, expireDateStr);
 
-            //save verification token and expire date
-            userTokenRepository.saveUserToken(email, token, expireDateStr);
-
             //generate verification url
             String baseURL = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-            String validationUrl =  baseURL + APINames.REGISTER_CONF_API + "/" + token;
+            String url =  baseURL + APINames.ACCEPT_INVITE_API + '/' + token;
 
             //send email
             EmailData emailData = new EmailData();
             emailData.setReceiver(email);
-            emailData.setSubject("Change Maker: Registration Confirmation");
-            String message = String.format("<p>Please click below link to confirm your registration at Change Maker.</p>" +
-                    "<p>%s</p><p>If the link doesn't work, you can copy and paste it to your browser.</p>", validationUrl);
+            emailData.setSubject("Change Maker: Registration invite");
+            String message = String.format("<p>You are invited to register at Digital Moment. " +
+                    "Please click below link to accept the invitation.</p>" +
+                    "<p>%s</p><p>If the link doesn't work, you can copy and paste it to your browser.</p>", url);
             emailData.setMessage(message);
             mailClient.sendMail(emailData);
-            return ResponseEntity.ok(new ServiceReponse(true, "Registration confirmation link sent to " + email));
+            return ResponseEntity.ok(new ServiceReponse(true, "User invitation link sent to " + email));
 //            return ResponseEntity.ok(new ServiceReponse(true, "<p>For testing. Assume email is sent to " + email + " as below:</p>" + message));
 
         } catch (Exception e) {
@@ -77,17 +73,16 @@ public class UserVerificationComponent {
         try {
             UserToken userToken = userTokenRepository.findUserByToken(token);
             if (userToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServiceReponse(false, "Registration confirmation invalid."));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServiceReponse(false, "The invitation is invalid."));
             }
             else if( userTokenComponent.isTokenExpired(userToken.getTokenExpireDateStr()) == true ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServiceReponse(false, "Registration confirmation expired."));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ServiceReponse(false, "Invitation expired."));
             }else{
-                userTokenRepository.saveUserTokenVerified(userToken.getEmail());
-                //TODO change user.user_status to "verified"
-                return ResponseEntity.ok(new ServiceReponse(true, "Registration confirmed successfully."));
+                return ResponseEntity.ok(new ServiceReponse(true, "Invitation confirmed successfully."));
+                //TODO after successful registration, clear the token. userTokenRepository.saveUserTokenVerified(userToken.getEmail());
             }
         }catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ServiceReponse(false,"Error Registration confirmation: " + e.getMessage()));
+            return ResponseEntity.badRequest().body(new ServiceReponse(false,"Error token verification: " + e.getMessage()));
         }
     }
 
