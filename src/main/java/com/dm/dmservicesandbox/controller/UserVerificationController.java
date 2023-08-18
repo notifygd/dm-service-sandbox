@@ -28,7 +28,7 @@ public class UserVerificationController {
     }
 
     @GetMapping(path=REDO_VERIFY_APIPATH+"/{email}")
-    public ResponseEntity emailValidate(@PathVariable String email) {
+    public ResponseEntity<?> emailValidate(@PathVariable String email) {
         return userVerificationComponent.sendRegisterConfirmation(email);
     }
 
