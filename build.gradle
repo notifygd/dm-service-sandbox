@@ -36,6 +36,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation (group: 'mysql', name: 'mysql-connector-java', version: '8.0.26' )
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.0'
+	implementation 'com.sun.mail:jakarta.mail:2.0.1'
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly (group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0')
 	compileOnly (group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0')

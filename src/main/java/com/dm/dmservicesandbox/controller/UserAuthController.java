@@ -3,8 +3,10 @@ package com.dm.dmservicesandbox.controller;
 
 import com.dm.dmservicesandbox.domain.ServiceReponse;
 import com.dm.dmservicesandbox.domain.UserSignUpRequest;
+import com.dm.dmservicesandbox.domain.UserToken;
 import com.dm.dmservicesandbox.service.UserAuthenticationService;
 import com.dm.dmservicesandbox.service.exception.UserAuthenticationException;
+
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class UserAuthController {
     @Autowired
     AuthenticationManager authenticationManager;
 
+
      @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserSignUpRequest userSignUpRequest) {
         try {
@@ -36,6 +39,8 @@ public class UserAuthController {
         } catch (UserAuthenticationException e) {
             return new ResponseEntity<>(new ServiceReponse(false, "Email Address already in use!"), HttpStatus.BAD_REQUEST);
         }
+        UserToken userToken;
+
         return ResponseEntity.ok().body(new ServiceReponse(true, "User registration success"));
     }
 
