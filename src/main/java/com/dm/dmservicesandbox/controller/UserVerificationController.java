@@ -1,7 +1,6 @@
 package com.dm.dmservicesandbox.controller;
 
 import com.dm.dmservicesandbox.component.UserVerificationComponent;
-import com.dm.dmservicesandbox.domain.ServiceReponse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

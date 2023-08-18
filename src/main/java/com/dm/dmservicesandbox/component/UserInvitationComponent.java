@@ -4,8 +4,8 @@ import com.dm.dmservicesandbox.dbhome.UserTokenRepository;
 import com.dm.dmservicesandbox.domain.APINames;
 import com.dm.dmservicesandbox.domain.EmailData;
 import com.dm.dmservicesandbox.domain.UserToken;
-import com.dm.dmservicesandbox.domain.ServiceReponse;
 
+import com.dm.dmservicesandbox.domain.restservice.ServiceReponse;
 import jakarta.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Value;

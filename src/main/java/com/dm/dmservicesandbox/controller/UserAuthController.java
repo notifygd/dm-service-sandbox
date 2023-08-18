@@ -1,9 +1,10 @@
 package com.dm.dmservicesandbox.controller;
 
 
-import com.dm.dmservicesandbox.domain.ServiceReponse;
-import com.dm.dmservicesandbox.domain.UserSignUpRequest;
+
 import com.dm.dmservicesandbox.domain.UserToken;
+import com.dm.dmservicesandbox.domain.restservice.ServiceReponse;
+import com.dm.dmservicesandbox.domain.restservice.UserSignUpRequest;
 import com.dm.dmservicesandbox.service.UserAuthenticationService;
 import com.dm.dmservicesandbox.service.exception.UserAuthenticationException;
 

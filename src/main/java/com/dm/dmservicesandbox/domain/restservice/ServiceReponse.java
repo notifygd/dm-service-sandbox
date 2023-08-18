@@ -1,4 +1,4 @@
-package com.dm.dmservicesandbox.domain;
+package com.dm.dmservicesandbox.domain.restservice;
 
 import lombok.Value;
 
