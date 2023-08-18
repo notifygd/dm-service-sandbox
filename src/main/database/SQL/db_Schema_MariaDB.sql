@@ -80,27 +80,11 @@ CREATE TABLE IF NOT EXISTS `country` (
   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `country_code` VARCHAR(2) NOT NULL COMMENT 'ISO 3166 2 digits countr code\nhttps://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes',
+  `country_code` CHAR(2) NOT NULL COMMENT 'ISO 3166 2 digits countr code\nhttps://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes',
   `country_name` VARCHAR(128) NULL,
   PRIMARY KEY (`country_code`))
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `location`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `location` ;
-
-CREATE TABLE IF NOT EXISTS `location` (
-  `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
-  `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `country` VARCHAR(2) NULL COMMENT 'ISO 3166 2 digits countyr code\nhttps://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes',
-  `region` VARCHAR(128) NULL COMMENT 'Top-level sub-national administrative features, such as states in the United States or provinces in Canada or China.',
-  `district` VARCHAR(128) NULL COMMENT 'Features that are smaller than top-level administrative features but typically larger than cities.',
-  `place` VARCHAR(128) NULL COMMENT 'Typically these are cities, villages, municipalities, etc. (refer to https://docs.mapbox.com/api/search/geocoding/)',
-  PRIMARY KEY (`sys_id`))
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -126,40 +110,11 @@ CREATE TABLE IF NOT EXISTS `post` (
 	related_posts TEXT,
 	user_tags TEXT,
 	sdg_tags TEXT,
-	member_post_cnt INTEGER,
-	member_upvotes INTEGER,
-	member_share_cnt INTEGER,
-	content_upvote_cnt INTEGER,
-	content_share_cnt INTEGER,
-	`language` VARCHAR(2),    
+	post_upvote_cnt INTEGER,
+	post_share_cnt INTEGER,
   PRIMARY KEY (`sys_id`))
 ENGINE = InnoDB;
 
--- CREATE TABLE IF NOT EXISTS `post` (
---   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
---   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
---   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---   `author_id` VARCHAR(32) NOT NULL,
---   `status` VARCHAR(45) NULL DEFAULT 'draft' COMMENT 'status of the post:\nENUM(\'draft\', \'published\', \'inactive\', \'reported\')',
---   `topic` VARCHAR(255) NOT NULL,
---   `title` VARCHAR(255) NOT NULL,
---   `location_id` VARCHAR(32) NULL,
---   `description` VARCHAR(4000) NOT NULL,
---   `factors` VARCHAR(2000) NULL,
---   `challenges` VARCHAR(2000) NULL,
---   `solutions` VARCHAR(1000) NULL,
--- 	sentiment INT,
--- 	emotion VARCHAR(50),
--- 	related_posts TEXT,
--- 	user_tags TEXT,
--- 	SDG_tags_for_post TEXT,
--- 	member_post_cnt INTEGER,
--- 	member_upvotes INTEGER,
--- 	member_share_cnt INTEGER,
--- 	content_upvote_cnt INTEGER,
--- 	content_share_cnt INTEGER,
---   PRIMARY KEY (`sys_id`))
--- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -228,7 +183,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `user` ;
 CREATE TABLE IF NOT EXISTS `user` (
-  `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+  `sys_id` varchar(32) NOT NULL DEFAULT (HEX(UNHEX(UUID_SHORT()))),
   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `email` VARCHAR(255)  NOT NULL,
@@ -238,51 +193,59 @@ CREATE TABLE IF NOT EXISTS `user` (
   `year_of_birth` YEAR NULL,
   `description` VARCHAR(255) NULL COMMENT 'self-description',
   `profile_image` VARCHAR(255) NULL COMMENT 'image file name',
-  `location_id` VARCHAR(32) NULL COMMENT '?',
-  `user_status` VARCHAR(45) NULL DEFAULT 0 COMMENT 'ENUM(new, verified, suspended, banned, canceled)',
-  `user_role` VARCHAR(45) NULL COMMENT 'ENUM(\'registered\', \'moderator\', \'admin\'):\nguest users are not stored in DB.',
-  `last_login_time` DATETIME NULL,
-  `tmp_token` VARCHAR(16) NULL COMMENT 'Temporary token for email validation',
-  `tmp_token_expire_on` DATETIME NULL COMMENT 'Eexpriation time for the temporary token for email validation',
-	country VARCHAR(255),
-	city VARCHAR(255),
+  `location_id` VARCHAR(32) NULL,
+  `user_status` VARCHAR(45) NULL COMMENT 'example ENUM(new, verified, suspended, banned, canceled) and etc.',
+  `user_role` VARCHAR(45) NULL COMMENT 'ENUM(registered, moderator, admin); guest users are not stored in DB.',
+  `is_current` TINYINT NULL COMMENT '?',
   PRIMARY KEY (`sys_id`))
 ENGINE = InnoDB;
--- CREATE TABLE IF NOT EXISTS `user` (
---   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
---   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
---   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---   `email` VARCHAR(255) NOT NULL,
---   `pwd_hash` VARCHAR(255) NOT NULL COMMENT 'SHA256-based encoding hash',
---   `pwd_salt` VARCHAR(50) NOT NULL COMMENT 'a randonm string used for SHA256-based encoding',
---   `user_name` VARCHAR(50) NOT NULL COMMENT 'The user handle name.Can be changed by the user.',
---   `year_of_birth` YEAR NULL,
---   `description` VARCHAR(255) NULL COMMENT 'self-description',
---   `profile_image` VARCHAR(255) NULL COMMENT 'image file name',
---   `location_id` VARCHAR(32) NOT NULL,
---   `user_status` VARCHAR(45) NULL DEFAULT 0 COMMENT 'ENUM(new, verified, suspended, banned, canceled)',
---   `user_role` VARCHAR(45) NULL COMMENT 'ENUM(\'registered\', \'moderator\', \'admin\'):\nguest users are not stored in DB.',
---   `last_login_time` DATETIME NULL,
---   `tmp_token` VARCHAR(16) NULL COMMENT 'Temporary token for email validation',
---   `tmp_token_expire_on` DATETIME NULL COMMENT 'Eexpriation time for the temporary token for email validation',
---   PRIMARY KEY (`sys_id`))
--- ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `user_feed`
+-- Table `user_login_activity`
 -- -----------------------------------------------------
--- DROP TABLE IF EXISTS `user_feed` ;
+DROP TABLE IF EXISTS `user_login_activity` ;
+CREATE TABLE IF NOT EXISTS `user_login_activity` (
+  `sys_id` varchar(32) NOT NULL DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+  `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email` VARCHAR(255) NOT NULL,
+  `activity` VARCHAR(255) NULL,
+  PRIMARY KEY (`sys_id`))
+ENGINE = InnoDB;
 
--- CREATE TABLE IF NOT EXISTS `user_feed` (
---   `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
---   `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
---   `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---   `user_id` VARCHAR(32) NOT NULL,
---   `feed_type` VARCHAR(45) NULL COMMENT 'Indicate thie feed is for: following user,  SDG, Tag,or  country',
---   `post_id` VARCHAR(32) NOT NULL COMMENT 'sys_id of the post',
---   `is_viewed` TINYINT(1) NULL DEFAULT 0 COMMENT 'Indicates if the feed item is viewed or not.')
--- ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `user_token`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `user_token` ;
+CREATE TABLE IF NOT EXISTS `user_token` (
+  `sys_id` varchar(32) NOT NULL  DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+  `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `email` VARCHAR(255) NOT NULL,
+  `token` VARCHAR(16) NULL COMMENT 'Temporary token for email validation',
+  `token_expire_on` DATETIME NULL COMMENT 'Eexpriation time for the temporary token',
+  PRIMARY KEY (`email`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `location`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `location` ;
+CREATE TABLE IF NOT EXISTS `location` (
+  `sys_id` varchar(32) DEFAULT (HEX(UNHEX(UUID_SHORT()))),
+  `created_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `country` CHAR(2) NULL COMMENT 'ISO 3166 2 digits country code\nhttps://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes',
+  `region` VARCHAR(128) NULL COMMENT 'Top-level sub-national administrative features, such as states in the United States or provinces in Canada or China.',
+  `district` VARCHAR(128) NULL COMMENT 'Features that are smaller than top-level administrative features but typically larger than cities.',
+  `city` VARCHAR(128) NULL COMMENT 'Typically these are cities, villages, municipalities, etc. (refer to https://docs.mapbox.com/api/search/geocoding/)',
+  `longitute` FLOAT(6, 6) NULL COMMENT 'Example values -77.123456, 2.345678',
+  `latitude` FLOAT(6, 6) NULL,
+  PRIMARY KEY (`sys_id`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
