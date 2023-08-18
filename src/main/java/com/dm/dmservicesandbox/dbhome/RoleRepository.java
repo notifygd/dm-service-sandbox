@@ -1,6 +1,6 @@
 package com.dm.dmservicesandbox.dbhome;
 
-import com.dm.dmservicesandbox.domain.Role;
+import com.dm.dmservicesandbox.domain.dbojects.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

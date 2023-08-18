@@ -1,4 +1,4 @@
-package com.dm.dmservicesandbox.domain;
+package com.dm.dmservicesandbox.domain.restservice;
 
 import com.dm.dmservicesandbox.validation.PasswordMatches;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,10 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 
-
 @Getter
 @Setter
-@ToString(callSuper=true, includeFieldNames=true)
 @PasswordMatches
 @Builder
 public class UserSignUpRequest {
@@ -26,17 +24,23 @@ public class UserSignUpRequest {
     @NotEmpty
     private String email;
 
-    @Size(min = 12, message = "Min Length is 12")
+    @Size(min = 6, message = "Min Length is 12")
     private String password;
 
+    @Size(max = 2, message = "Max Length is 2")
     @NotEmpty
     private String country;
 
     @NotEmpty
     private String city;
 
-    @NotEmpty
-    private String mapBoxId;
+    private String region;
+
+    private String district;
+
+    private Float longitute;
+
+    private Float latitude;
 
 
 }
