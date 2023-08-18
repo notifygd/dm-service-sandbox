@@ -1,17 +1,14 @@
 package com.dm.dmservicesandbox.domain.restservice;
 
-import com.dm.dmservicesandbox.validation.PasswordMatches;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 
 @Getter
 @Setter
-@PasswordMatches
 @Builder
 public class UserSignUpRequest {
 

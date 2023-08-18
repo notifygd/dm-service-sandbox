@@ -4,6 +4,7 @@ package com.dm.dmservicesandbox.controller;
 
 import com.dm.dmservicesandbox.domain.UserToken;
 import com.dm.dmservicesandbox.domain.restservice.ServiceReponse;
+import com.dm.dmservicesandbox.domain.restservice.UserLoginRequest;
 import com.dm.dmservicesandbox.domain.restservice.UserSignUpRequest;
 import com.dm.dmservicesandbox.service.UserAuthenticationService;
 import com.dm.dmservicesandbox.service.exception.UserAuthenticationException;
@@ -46,8 +47,8 @@ public class UserAuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody UserSignUpRequest userSignUpRequest) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userSignUpRequest.getEmail(), userSignUpRequest.getPassword()));
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody UserLoginRequest userLoginRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return ResponseEntity.ok().body(new ServiceReponse(true, "User Login success"));
 

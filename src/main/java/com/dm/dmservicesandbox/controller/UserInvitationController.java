@@ -24,13 +24,13 @@ public class UserInvitationController {
 
 
     @GetMapping(path=APINames.INVITE_USER_API+"/{email}")
-    public ResponseEntity inviteUser (@PathVariable String email) {
+    public ResponseEntity<?> inviteUser (@PathVariable String email) {
         return userInvitationComponent.sendUserInvite(email);
     }
 
     @GetMapping(path=APINames.ACCEPT_INVITE_API+"/{token}")
-    public ResponseEntity acceptInvite (@PathVariable String token, HttpServletResponse response) {
-        ResponseEntity respEntry = userInvitationComponent.verifyUserToken(token);
+    public ResponseEntity<?> acceptInvite (@PathVariable String token, HttpServletResponse response) {
+        ResponseEntity<?> respEntry = userInvitationComponent.verifyUserToken(token);
         if( respEntry.getStatusCode() == HttpStatus.OK ) {
             try {
                 // on success, redirect to registration page
