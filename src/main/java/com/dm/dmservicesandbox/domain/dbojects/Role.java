@@ -1,11 +1,12 @@
-package com.dm.dmservicesandbox.domain;
+package com.dm.dmservicesandbox.domain.dbojects;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -13,8 +14,9 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(callSuper=true, includeFieldNames=true)
+@AllArgsConstructor
 public class Role implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     public static final String USER = "USER";
     public static final String ROLE_USER = "ROLE_USER";
@@ -30,7 +32,7 @@ public class Role implements Serializable {
 
     // bi-directional many-to-many association to User
     @ManyToMany(mappedBy = "roles")
-    private Set<UserLogin> users;
+    private Set<User> users;
 
     public Role(String name) {
         this.name = name;

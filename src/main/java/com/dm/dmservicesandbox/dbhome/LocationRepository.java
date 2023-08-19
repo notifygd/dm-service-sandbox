@@ -1,11 +1,10 @@
 package com.dm.dmservicesandbox.dbhome;
 
-import com.dm.dmservicesandbox.domain.dbojects.Role;
+import com.dm.dmservicesandbox.domain.dbojects.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface LocationRepository extends JpaRepository<Location, Long> {
 
-    Role findByName(String name);
 }
